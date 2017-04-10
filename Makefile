@@ -11,6 +11,11 @@ tool: src/tool.c src/custr.c
 	gcc $(CFLAGS) -o $@ $^
 
 output/%.conf: %/dfw_sst.bin header.conf tool
+	mkdir -p $(@D)
 	cat header.conf > $@
 	./tool $< >> $@
+
+clean:
+	rm -f tool output/*.conf
+
 

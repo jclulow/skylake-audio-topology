@@ -27,12 +27,18 @@
  */
 
 #include <stdlib.h>
+#include <stdint.h>
 #include <errno.h>
 #include <err.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
+#if __sun
 #include <sys/debug.h>
+#else
+#include <assert.h>
+#define	VERIFY	assert
+#endif
 
 #include "custr.h"
 
@@ -84,7 +90,9 @@ custr_cstr(custr_t *cus)
 static int
 custr_append_vprintf(custr_t *cus, const char *fmt, va_list ap)
 {
-	int len = vsnprintf(NULL, 0, fmt, ap);
+	va_list tmp;
+	va_copy(tmp, ap);
+	int len = vsnprintf(NULL, 0, fmt, tmp);
 	size_t chunksz = STRING_CHUNK_SIZE;
 
 	if (len < 0) {

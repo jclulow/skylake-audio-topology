@@ -790,7 +790,7 @@ main(int argc, char *argv[])
 	fprintf(stderr, "size: %lu\n", st.st_size);
 
 	fprintf(stderr, "expected header size: %u\n",
-	    sizeof (struct snd_soc_tplg_hdr));
+	    (unsigned)(sizeof (struct snd_soc_tplg_hdr)));
 
 	if ((data = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED,
 	    fd, 0)) == MAP_FAILED) {
